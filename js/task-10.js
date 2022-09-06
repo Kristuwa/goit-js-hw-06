@@ -12,8 +12,8 @@ const refs = {
 refs.inputRef.addEventListener("change", onCreateCollectionEl);
 
 function createBoxes(amount) {
-  let widthEl = 30;
-  let heightEl = 30;
+  let widthEl;
+  let heightEl;
   const randomColor = getRandomHexColor();
   const elements = [];
 
@@ -24,22 +24,18 @@ function createBoxes(amount) {
 
   for (let j = 0; j < elements.length; j += 1) {
     if (j === 0) {
-      elements[j].style.width = `${widthEl}px`;
-      elements[j].style.height = `${heightEl}px`;
-      elements[j].style.backgroundColor = randomColor;
+      widthEl = 30;
+      heightEl = 30;
     } else {
       widthEl += 10;
       heightEl += 10;
-      elements[j].style.width = `${widthEl}px`;
-      elements[j].style.height = `${heightEl}px`;
-      elements[j].style.backgroundColor = randomColor;
     }
+    elements[j].style.width = `${widthEl}px`;
+    elements[j].style.height = `${heightEl}px`;
+    elements[j].style.backgroundColor = randomColor;
   }
 
-  console.log(elements);
-
   const elementString = elements.map((elem) => elem);
-  console.log(elementString);
   return refs.collectionRef.append(...elementString);
 }
 
@@ -55,4 +51,10 @@ function onCreateCollectionEl(event) {
   }
 
   return alert("Enter number from 1 to 100");
+}
+
+refs.destroyBtnRef.addEventListener("click", destroyBoxes);
+
+function destroyBoxes(event) {
+  refs.collectionRef.innerHTML = "";
 }
