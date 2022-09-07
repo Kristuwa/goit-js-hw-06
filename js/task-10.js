@@ -9,7 +9,7 @@ const refs = {
   collectionRef: document.querySelector("#boxes"),
 };
 
-refs.inputRef.addEventListener("change", onCreateCollectionEl);
+refs.createBtnRef.addEventListener("click", onCreateCollectionEl);
 
 function createBoxes(amount) {
   let widthEl;
@@ -17,22 +17,21 @@ function createBoxes(amount) {
   const randomColor = getRandomHexColor();
   const elements = [];
 
-  for (let i = 1; i <= amount; i += 1) {
+  for (let i = 0; i < amount; i += 1) {
     const collectionEl = document.createElement("div");
-    elements.push(collectionEl);
-  }
-
-  for (let j = 0; j < elements.length; j += 1) {
-    if (j === 0) {
+    if (i === 0) {
       widthEl = 30;
       heightEl = 30;
     } else {
       widthEl += 10;
       heightEl += 10;
     }
-    elements[j].style.width = `${widthEl}px`;
-    elements[j].style.height = `${heightEl}px`;
-    elements[j].style.backgroundColor = randomColor;
+
+    collectionEl.style.width = `${widthEl}px`;
+    collectionEl.style.height = `${heightEl}px`;
+    collectionEl.style.backgroundColor = randomColor;
+
+    elements.push(collectionEl);
   }
 
   const elementString = elements.map((elem) => elem);
@@ -42,12 +41,13 @@ function createBoxes(amount) {
 function onCreateCollectionEl(event) {
   const minNumber = Number(refs.inputRef.min);
   const maxNumber = Number(refs.inputRef.max);
+  console.log(refs.inputRef.value);
 
   if (
-    event.currentTarget.value >= minNumber &&
-    event.currentTarget.value <= maxNumber
+    Number(refs.inputRef.value) >= minNumber &&
+    Number(refs.inputRef.value) <= maxNumber
   ) {
-    return createBoxes(event.currentTarget.value);
+    return createBoxes(refs.inputRef.value);
   }
 
   return alert("Enter number from 1 to 100");
